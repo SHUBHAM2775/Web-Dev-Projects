@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-03T14:59:15.127Z",
-  "count": 10,
+  "generatedAt": "2026-06-03T15:00:12.330Z",
+  "count": 11,
   "projects": [
     {
       "slug": "2048 Game",
@@ -18,7 +18,7 @@
       "entry": "Projects/2048%20Game/index.html",
       "folder": "Projects/2048%20Game",
       "thumbnail": "Projects/2048%20Game/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.022Z"
+      "addedAt": "2026-06-03T15:00:08.544Z"
     },
     {
       "slug": "Daily Wheels",
@@ -36,7 +36,7 @@
       "entry": "Projects/Daily%20Wheels/index.html",
       "folder": "Projects/Daily%20Wheels",
       "thumbnail": "Projects/Daily%20Wheels/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.022Z"
+      "addedAt": "2026-06-03T15:00:08.545Z"
     },
     {
       "slug": "Developer Portfolio Builder",
@@ -55,7 +55,7 @@
       "entry": "Projects/Developer%20Portfolio%20Builder/index.html",
       "folder": "Projects/Developer%20Portfolio%20Builder",
       "thumbnail": "Projects/Developer%20Portfolio%20Builder/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.023Z"
+      "addedAt": "2026-06-03T15:00:08.545Z"
     },
     {
       "slug": "Expense Tracker",
@@ -74,7 +74,7 @@
       "entry": "Projects/Expense%20Tracker/index.html",
       "folder": "Projects/Expense%20Tracker",
       "thumbnail": "Projects/Expense%20Tracker/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.023Z"
+      "addedAt": "2026-06-03T15:00:08.545Z"
     },
     {
       "slug": "Image Gallery",
@@ -93,7 +93,7 @@
       "entry": "Projects/Image%20Gallery/index.html",
       "folder": "Projects/Image%20Gallery",
       "thumbnail": "Projects/Image%20Gallery/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.024Z"
+      "addedAt": "2026-06-03T15:00:08.546Z"
     },
     {
       "slug": "Markdown Editor",
@@ -113,7 +113,7 @@
       "entry": "Projects/Markdown%20Editor/index.html",
       "folder": "Projects/Markdown%20Editor",
       "thumbnail": "Projects/Markdown%20Editor/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.024Z"
+      "addedAt": "2026-06-03T15:00:08.546Z"
     },
     {
       "slug": "Music Player",
@@ -133,7 +133,7 @@
       "entry": "Projects/Music%20Player/index.html",
       "folder": "Projects/Music%20Player",
       "thumbnail": "Projects/Music%20Player/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.025Z"
+      "addedAt": "2026-06-03T15:00:08.546Z"
     },
     {
       "slug": "Notes App",
@@ -151,7 +151,7 @@
       "entry": "Projects/Notes%20App/index.html",
       "folder": "Projects/Notes%20App",
       "thumbnail": "Projects/Notes%20App/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.025Z"
+      "addedAt": "2026-06-03T15:00:08.546Z"
     },
     {
       "slug": "Pomodoro Timer",
@@ -171,7 +171,26 @@
       "entry": "Projects/Pomodoro%20Timer/index.html",
       "folder": "Projects/Pomodoro%20Timer",
       "thumbnail": "Projects/Pomodoro%20Timer/thumbnail.svg",
-      "addedAt": "2026-06-03T14:59:10.026Z"
+      "addedAt": "2026-06-03T15:00:08.547Z"
+    },
+    {
+      "slug": "Quiz Master",
+      "title": "Quiz Master",
+      "description": "A premium Black & Orange MCQ Quiz App with local auth, score tracking, and an AI-mock topic generator.",
+      "author": {
+        "name": "Mistry Vishwa",
+        "github": "MistryVishwa"
+      },
+      "tags": [
+        "education",
+        "quiz",
+        "vanilla-js",
+        "localstorage"
+      ],
+      "entry": "Projects/Quiz%20Master/index.html",
+      "folder": "Projects/Quiz%20Master",
+      "thumbnail": "Projects/Quiz%20Master/thumbnail.svg",
+      "addedAt": "2026-06-03T15:00:08.547Z"
     },
     {
       "slug": "Weather Finder",
@@ -189,7 +208,7 @@
       "entry": "Projects/Weather%20Finder/index.html",
       "folder": "Projects/Weather%20Finder",
       "thumbnail": null,
-      "addedAt": "2026-06-03T14:59:10.026Z"
+      "addedAt": "2026-06-03T15:00:08.547Z"
     }
   ]
 }
