@@ -7,14 +7,14 @@
     "github": "Girish0902"
   },
   "tags": [
-    "game",
-    "memory",
-    "vanilla-js",
-    "gamified",
-    "localstorage",
-    "css-3d",
-    "canvas"
+  "game",
+  "memory",
+  "vanilla-js",
+  "gamified",
+  "localstorage",
+  "css-3d"
   ],
+  
   "entry": "index.html",
   "thumbnail": "thumbnail.svg"
 }
