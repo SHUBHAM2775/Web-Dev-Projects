@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-03T15:00:12.330Z",
-  "count": 11,
+  "generatedAt": "2026-06-03T15:04:39.608Z",
+  "count": 12,
   "projects": [
     {
       "slug": "2048 Game",
@@ -18,7 +18,27 @@
       "entry": "Projects/2048%20Game/index.html",
       "folder": "Projects/2048%20Game",
       "thumbnail": "Projects/2048%20Game/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.544Z"
+      "addedAt": "2026-06-03T15:04:34.900Z"
+    },
+    {
+      "slug": "Chat Room",
+      "title": "Chat Room",
+      "description": "A real-time multi-tab chat room using BroadcastChannel API and localStorage — no server needed.",
+      "author": {
+        "name": "Shubham Upadhyay",
+        "github": "SHUBHAM2775"
+      },
+      "tags": [
+        "chat",
+        "real-time",
+        "broadcastchannel",
+        "vanilla-js",
+        "localstorage"
+      ],
+      "entry": "Projects/Chat%20Room/index.html",
+      "folder": "Projects/Chat%20Room",
+      "thumbnail": "Projects/Chat%20Room/thumbnail.svg",
+      "addedAt": "2026-06-03T15:04:34.900Z"
     },
     {
       "slug": "Daily Wheels",
@@ -36,7 +56,7 @@
       "entry": "Projects/Daily%20Wheels/index.html",
       "folder": "Projects/Daily%20Wheels",
       "thumbnail": "Projects/Daily%20Wheels/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.545Z"
+      "addedAt": "2026-06-03T15:04:34.900Z"
     },
     {
       "slug": "Developer Portfolio Builder",
@@ -55,7 +75,7 @@
       "entry": "Projects/Developer%20Portfolio%20Builder/index.html",
       "folder": "Projects/Developer%20Portfolio%20Builder",
       "thumbnail": "Projects/Developer%20Portfolio%20Builder/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.545Z"
+      "addedAt": "2026-06-03T15:04:34.901Z"
     },
     {
       "slug": "Expense Tracker",
@@ -74,7 +94,7 @@
       "entry": "Projects/Expense%20Tracker/index.html",
       "folder": "Projects/Expense%20Tracker",
       "thumbnail": "Projects/Expense%20Tracker/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.545Z"
+      "addedAt": "2026-06-03T15:04:34.901Z"
     },
     {
       "slug": "Image Gallery",
@@ -93,7 +113,7 @@
       "entry": "Projects/Image%20Gallery/index.html",
       "folder": "Projects/Image%20Gallery",
       "thumbnail": "Projects/Image%20Gallery/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.546Z"
+      "addedAt": "2026-06-03T15:04:34.902Z"
     },
     {
       "slug": "Markdown Editor",
@@ -113,7 +133,7 @@
       "entry": "Projects/Markdown%20Editor/index.html",
       "folder": "Projects/Markdown%20Editor",
       "thumbnail": "Projects/Markdown%20Editor/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.546Z"
+      "addedAt": "2026-06-03T15:04:34.902Z"
     },
     {
       "slug": "Music Player",
@@ -133,7 +153,7 @@
       "entry": "Projects/Music%20Player/index.html",
       "folder": "Projects/Music%20Player",
       "thumbnail": "Projects/Music%20Player/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.546Z"
+      "addedAt": "2026-06-03T15:04:34.903Z"
     },
     {
       "slug": "Notes App",
@@ -151,7 +171,7 @@
       "entry": "Projects/Notes%20App/index.html",
       "folder": "Projects/Notes%20App",
       "thumbnail": "Projects/Notes%20App/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.546Z"
+      "addedAt": "2026-06-03T15:04:34.903Z"
     },
     {
       "slug": "Pomodoro Timer",
@@ -171,7 +191,7 @@
       "entry": "Projects/Pomodoro%20Timer/index.html",
       "folder": "Projects/Pomodoro%20Timer",
       "thumbnail": "Projects/Pomodoro%20Timer/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.547Z"
+      "addedAt": "2026-06-03T15:04:34.903Z"
     },
     {
       "slug": "Quiz Master",
@@ -190,7 +210,7 @@
       "entry": "Projects/Quiz%20Master/index.html",
       "folder": "Projects/Quiz%20Master",
       "thumbnail": "Projects/Quiz%20Master/thumbnail.svg",
-      "addedAt": "2026-06-03T15:00:08.547Z"
+      "addedAt": "2026-06-03T15:04:34.903Z"
     },
     {
       "slug": "Weather Finder",
@@ -208,7 +228,7 @@
       "entry": "Projects/Weather%20Finder/index.html",
       "folder": "Projects/Weather%20Finder",
       "thumbnail": null,
-      "addedAt": "2026-06-03T15:00:08.547Z"
+      "addedAt": "2026-06-03T15:04:34.904Z"
     }
   ]
 }
