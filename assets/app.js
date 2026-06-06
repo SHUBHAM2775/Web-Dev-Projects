@@ -169,7 +169,7 @@ if (themeToggle) {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", newTheme === "dark" ? "#1c1d21" : "#f5f1ea");
+    if (meta) meta.setAttribute("content", newTheme === "dark" ? "#0b0c10" : "#f5f1ea");
   });
 }
 
