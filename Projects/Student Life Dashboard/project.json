@@ -1,0 +1,8 @@
+{
+  "title": "Student Life Dashboard",
+  "description": "Full-featured student workspace portal with native HTML5 drag-and-drop widget grid, Pomodoro timer, task kanban, habit streak tracker, exam countdown, sticky notes, contribution grid, and motivational quotes — all persisted to localStorage.",
+  "author": { "name": "Girish Madarkar", "github": "Girish0902" },
+  "tags": ["student", "productivity", "dashboard", "dragdrop", "pomodoro", "vanilla-js"],
+  "entry": "index.html",
+  "thumbnail": "thumbnail.svg"
+}

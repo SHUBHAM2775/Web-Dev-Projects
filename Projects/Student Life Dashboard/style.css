@@ -1,0 +1,92 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#05060b;color:#cbd5e1;font-family:"SF Mono",Consolas,"Courier New",monospace;min-height:100vh;display:flex;justify-content:center;padding:2vmin}
+#app{width:min(1500px,98vmin);display:flex;flex-direction:column;gap:1.2vmin}
+#ribbon{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03);border-radius:1.2vmin;padding:1.6vmin 2vmin}
+#greeting{display:flex;gap:0.4vmin;font-size:2vmin;align-items:baseline}
+#userName{color:#475569}
+#ribbonRight{display:flex;gap:2vmin}
+.ribbon-tile{display:flex;flex-direction:column;align-items:flex-end;gap:0.1vmin}
+.r-lbl{font-size:1.1vmin;text-transform:uppercase;letter-spacing:0.2em;color:#475569}
+.r-val{font-size:2vmin;font-weight:700}
+.cy{color:#00f0ff}
+#workspace{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2vmin;align-items:start}
+.widget{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1.4vmin;padding:1.6vmin;display:flex;flex-direction:column;gap:1vmin;cursor:default;transition:box-shadow 0.2s,opacity 0.2s}
+.widget:hover{border-color:rgba(0,240,255,0.08)}
+.widget.dragging{opacity:0.4}
+.widget.drag-over{border-color:#00f0ff;box-shadow:0 0 2vmin rgba(0,240,255,0.08)}
+.w-head{display:flex;justify-content:space-between;align-items:center;-webkit-user-select:none;user-select:none}
+.w-title{font-size:1.4vmin;text-transform:uppercase;letter-spacing:0.2em;color:#475569;font-weight:600}
+.drag-hint{font-size:2vmin;color:#2a2d3e;cursor:grab;padding:0.2vmin}
+.drag-hint:active{cursor:grabbing}
+.w-body{display:flex;flex-direction:column;gap:0.8vmin;flex:1}
+/* Pomodoro */
+.pomodoro-ring{position:relative;display:flex;justify-content:center;align-items:center;padding:1vmin}
+.pomodoro-ring svg{width:18vmin;height:18vmin;max-width:140px;max-height:140px}
+.pom-center{position:absolute;display:flex;flex-direction:column;align-items:center}
+#pomTime{font-size:4vmin;font-weight:700;color:#00f0ff;letter-spacing:-0.03em}
+.pom-lbl{font-size:1.2vmin;color:#475569;text-transform:uppercase;letter-spacing:0.2em}
+.pom-ctrl{display:flex;gap:0.8vmin;justify-content:center}
+.pom-btn{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:0.6vmin;padding:0.8vmin 2vmin;color:#94a3b8;font-family:inherit;font-size:1.3vmin;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.15em}
+.pom-btn:hover{background:rgba(0,240,255,0.06);color:#00f0ff}
+#pomStart.running{background:rgba(255,42,95,0.08);border-color:rgba(255,42,95,0.15);color:#ff2a5f}
+/* Kanban */
+.kanban-hd{display:flex;justify-content:space-between;align-items:center;font-size:1.4vmin;color:#64748b}
+.add-btn{background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.1);border-radius:0.4vmin;width:2.4vmin;height:2.4vmin;color:#00f0ff;font-size:1.6vmin;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.add-btn:hover{background:rgba(0,240,255,0.12)}
+.kanban-list{display:flex;flex-direction:column;gap:0.4vmin;max-height:28vmin;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(0,240,255,0.1) transparent}
+.kanban-list::-webkit-scrollbar{width:0.3vmin}
+.kanban-list::-webkit-scrollbar-thumb{background:rgba(0,240,255,0.1);border-radius:0.2vmin}
+.task-item{display:flex;align-items:center;gap:0.6vmin;padding:0.6vmin 0.8vmin;border-radius:0.5vmin;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03);font-size:1.3vmin;cursor:default;transition:all 0.2s}
+.task-item input[type=checkbox]{-webkit-appearance:none;appearance:none;width:1.6vmin;height:1.6vmin;border:1px solid rgba(255,255,255,0.1);border-radius:0.3vmin;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+.task-item input[type=checkbox]:checked{background:#10b981;border-color:#10b981}
+.task-item input[type=checkbox]:checked::after{content:"\2713";color:#05060b;font-size:1.1vmin;font-weight:700}
+.task-item .task-del{background:none;border:none;color:#2a2d3e;cursor:pointer;font-size:1.6vmin;margin-left:auto;padding:0 0.2vmin}
+.task-item .task-del:hover{color:#ff2a5f}
+.task-item.done{opacity:0.4}
+.task-item.done .task-text{text-decoration:line-through;color:#475569}
+/* Habit */
+.streak-bar{display:flex;justify-content:space-between;font-size:1.4vmin;color:#64748b}
+.habit-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.6vmin}
+.habit-dot{display:flex;flex-direction:column;align-items:center;gap:0.3vmin;cursor:pointer;padding:0.4vmin;border-radius:0.4vmin;transition:all 0.2s}
+.habit-dot:hover{background:rgba(255,255,255,0.02)}
+.habit-dot .h-day{font-size:0.9vmin;color:#475569;text-transform:uppercase}
+.habit-dot .h-circle{width:2.4vmin;height:2.4vmin;border-radius:50%;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);transition:all 0.3s}
+.habit-dot.done .h-circle{background:#10b981;border-color:#10b981;box-shadow:0 0 0.8vmin rgba(16,185,129,0.2)}
+/* Exam */
+.exam-list{display:flex;flex-direction:column;gap:0.5vmin;max-height:28vmin;overflow-y:auto;scrollbar-width:thin}
+.exam-list::-webkit-scrollbar{width:0.3vmin}
+.exam-item{display:flex;justify-content:space-between;align-items:center;padding:0.6vmin 0.8vmin;border-radius:0.5vmin;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03);font-size:1.3vmin}
+.exam-name{color:#e2e8f0}
+.exam-days{color:#f59e0b;font-weight:700}
+.exam-empty{color:#475569;font-size:1.3vmin;text-align:center;padding:2vmin}
+/* Notes */
+#notesArea{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:0.6vmin;padding:1vmin;color:#e2e8f0;font-family:inherit;font-size:1.4vmin;resize:vertical;min-height:12vmin;outline:none;transition:border 0.2s}
+#notesArea:focus{border-color:#00f0ff}
+.notes-saved{font-size:1.1vmin;color:#475569;text-align:right}
+.notes-saved.dirty{color:#f59e0b}
+/* Contribution Grid */
+.grid-contrib{display:grid;grid-template-columns:repeat(7,1fr);gap:0.4vmin}
+.gh-cell{width:100%;aspect-ratio:1;border-radius:0.3vmin;background:rgba(255,255,255,0.02);transition:all 0.2s}
+.gh-cell.l1{background:rgba(0,240,255,0.08)}
+.gh-cell.l2{background:rgba(0,240,255,0.15)}
+.gh-cell.l3{background:rgba(0,240,255,0.25)}
+.gh-cell.l4{background:rgba(0,240,255,0.4)}
+/* Quote */
+.quote-text{font-size:1.6vmin;font-style:italic;color:#94a3b8;line-height:1.6}
+.quote-auth{font-size:1.2vmin;color:#475569;text-align:right;margin-top:0.4vmin}
+#footBar{display:flex;gap:1vmin;justify-content:flex-end;padding:0.6vmin 0}
+#footBar button{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:0.8vmin;padding:1.2vmin 3vmin;color:#64748b;font-family:inherit;font-size:1.3vmin;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.2em}
+#footBar button:hover{background:rgba(255,255,255,0.04);color:#e2e8f0}
+#purgeBtn:hover{background:rgba(255,42,95,0.08);border-color:rgba(255,42,95,0.2);color:#ff2a5f}
+.dragover-eject{border-color:#ff2a5f!important;box-shadow:0 0 2vmin rgba(255,42,95,0.08)!important}
+@media(max-width:720px){
+  #ribbon{flex-direction:column;gap:1vmin;align-items:flex-start}
+  #greeting{font-size:3.2vmin}
+  #ribbonRight{width:100%;justify-content:space-between}
+  .r-val{font-size:3vmin}
+  #workspace{grid-template-columns:1fr}
+  .w-title{font-size:2.2vmin}
+  #pomTime{font-size:6vmin}
+  .task-item{font-size:2vmin}
+  .quote-text{font-size:2.4vmin}
+}

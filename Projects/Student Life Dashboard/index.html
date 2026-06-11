@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Student Life Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="ribbon">
+    <div id="greeting"><span id="welcomeMsg">Good Morning</span><span id="userName">, Scholar</span></div>
+    <div id="ribbonRight">
+      <div class="ribbon-tile"><span class="r-lbl">Clock</span><span class="r-val" id="liveClock">00:00:00</span></div>
+      <div class="ribbon-tile"><span class="r-lbl">Productivity</span><span class="r-val cy" id="prodPct">0%</span></div>
+    </div>
+  </header>
+
+  <div id="workspace"></div>
+
+  <footer id="footBar">
+    <button id="resetLayoutBtn">Reset Layout</button>
+    <button id="purgeBtn">Purge Storage</button>
+  </footer>
+</div>
+<template id="tmplPomodoro"><div class="widget" data-widget="pomodoro"><div class="w-head"><span class="w-title">Pomodoro Timer</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="pomodoro-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="6"/><circle cx="60" cy="60" r="52" fill="none" stroke="#00f0ff" stroke-width="6" stroke-linecap="round" id="pomRing" stroke-dasharray="0 326.7"/></svg><div class="pom-center"><span id="pomTime">25:00</span><span class="pom-lbl">Focus</span></div></div><div class="pom-ctrl"><button class="pom-btn" id="pomStart">Start</button><button class="pom-btn" id="pomReset">Reset</button></div></div></div></template>
+<template id="tmplKanban"><div class="widget" data-widget="kanban"><div class="w-head"><span class="w-title">Task Kanban</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="kanban-hd"><span id="taskCount">0/0</span><button class="add-btn" id="taskAdd">+</button></div><div class="kanban-list" id="taskList"></div></div></div></template>
+<template id="tmplHabits"><div class="widget" data-widget="habits"><div class="w-head"><span class="w-title">Habit Streak</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="streak-bar"><span>Streak</span><span class="cy" id="streakCount">0 days</span></div><div class="habit-grid" id="habitGrid"></div></div></div></template>
+<template id="tmplExams"><div class="widget" data-widget="exams"><div class="w-head"><span class="w-title">Exam Countdown</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="exam-list" id="examList"><div class="exam-empty">No exams</div></div></div></div></template>
+<template id="tmplNotes"><div class="widget" data-widget="notes"><div class="w-head"><span class="w-title">Sticky Notes</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><textarea id="notesArea" placeholder="Write your notes here..." rows="4"></textarea><span id="notesSaved" class="notes-saved">Saved</span></div></div></template>
+<template id="tmplGrid"><div class="widget" data-widget="grid"><div class="w-head"><span class="w-title">Contribution Grid</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="grid-contrib" id="contribGrid"></div></div></div></template>
+<template id="tmplQuote"><div class="widget" data-widget="quote"><div class="w-head"><span class="w-title">Daily Motivation</span><span class="drag-hint">&#x2630;</span></div><div class="w-body"><div class="quote-text" id="quoteText">"The secret of getting ahead is getting started."</div><div class="quote-auth" id="quoteAuth">— Mark Twain</div></div></div></template>
+<script src="script.js"></script>
+</body>
+</html>
