@@ -34,10 +34,16 @@
       </div>
       
       <div class="header-actions">
+        <button class="btn btn-secondary" id="export-json-btn" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: middle;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>Export JSON
+        </button>
+
         <button class="btn btn-secondary" id="export-report-btn" disabled>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: middle;">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-          </svg>Download Report
+          </svg>Download Summary
         </button>
 
         <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme" title="Switch Theme">
@@ -68,39 +74,39 @@
           <form id="metrics-form" onsubmit="return false;">
             <div id="manual-inputs-group">
               <div class="input-group">
-                <label for="input-js-size">Total JavaScript Size: <span id="val-js-size">800</span> KB</label>
-                <input type="range" id="input-js-size" min="50" max="3000" step="50" value="800">
-                <span class="input-desc">Includes bundlers, frameworks, and packages.</span>
+                <label for="input-load-time">Page Load Time: <span id="val-load-time">3.5</span> s</label>
+                <input type="range" id="input-load-time" min="0.2" max="15" step="0.1" value="3.5">
+                <span class="input-desc">Total time elapsed to load the webpage assets fully.</span>
               </div>
 
               <div class="input-group">
-                <label for="input-images">Unoptimized Images: <span id="val-images">12</span></label>
-                <input type="range" id="input-images" min="0" max="50" step="1" value="12">
-                <span class="input-desc">Images missing sizes, compression, or lazy load.</span>
+                <label for="input-page-size">Total Page Size: <span id="val-page-size">2.4</span> MB</label>
+                <input type="range" id="input-page-size" min="0.1" max="15" step="0.1" value="2.4">
+                <span class="input-desc">Combined size of HTML, CSS, JS, and image elements.</span>
               </div>
 
               <div class="input-group">
-                <label for="input-requests">Network Requests: <span id="val-requests">45</span></label>
-                <input type="range" id="input-requests" min="5" max="150" step="5" value="45">
-                <span class="input-desc">Total HTTP requests required to render page.</span>
+                <label for="input-image-count">Image Count: <span id="val-image-count">15</span></label>
+                <input type="range" id="input-image-count" min="0" max="80" step="1" value="15">
+                <span class="input-desc">Total number of graphic and image assets hosted.</span>
               </div>
 
               <div class="input-group">
-                <label for="input-dom-nodes">DOM HTML Size: <span id="val-dom-nodes">1500</span> Nodes</label>
-                <input type="range" id="input-dom-nodes" min="100" max="6000" step="100" value="1500">
-                <span class="input-desc">Total document markup elements.</span>
+                <label for="input-image-size">Total Image Size: <span id="val-image-size">1200</span> KB</label>
+                <input type="range" id="input-image-size" min="50" max="8000" step="50" value="1200">
+                <span class="input-desc">Cumulative size weight of all page images combined.</span>
               </div>
 
               <div class="input-group">
-                <label for="input-rtt">Server Latency (RTT): <span id="val-rtt">120</span> ms</label>
-                <input type="range" id="input-rtt" min="10" max="800" step="10" value="120">
-                <span class="input-desc">Round trip network response delay.</span>
+                <label for="input-css-count">CSS File Count: <span id="val-css-count">3</span></label>
+                <input type="range" id="input-css-count" min="1" max="15" step="1" value="3">
+                <span class="input-desc">Number of individual stylesheets blocking render paint.</span>
               </div>
 
               <div class="input-group">
-                <label for="input-blocking-scripts">Blocking Third-Party Scripts: <span id="val-blocking-scripts">4</span></label>
-                <input type="range" id="input-blocking-scripts" min="0" max="15" step="1" value="4">
-                <span class="input-desc">Blocking advertising, analytics, or social scripts.</span>
+                <label for="input-js-count">JavaScript File Count: <span id="val-js-count">6</span></label>
+                <input type="range" id="input-js-count" min="1" max="25" step="1" value="6">
+                <span class="input-desc">Number of scripts running on main browser thread.</span>
               </div>
 
               <div class="form-row">

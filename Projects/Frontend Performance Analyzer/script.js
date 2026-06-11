@@ -49,12 +49,12 @@ const AUDITS_DATABASE = [
 // --- INITIAL STATE ---
 let STATE = {
   inputs: {
-    jsSize: 800,
-    images: 12,
-    requests: 45,
-    domNodes: 1500,
-    rtt: 120,
-    blockingScripts: 4,
+    loadTime: 3.5,
+    pageSize: 2.4,
+    imageCount: 15,
+    imageSize: 1200,
+    cssCount: 3,
+    jsCount: 6,
     criticalCss: false,
     http3: false
   },
@@ -66,14 +66,14 @@ let STATE = {
     defer: false,
     http3Force: false
   },
-  history: [], // { date: string, score: number, lcp: string, fid: string, cls: string }
+  history: [], // { date: string, score: number, lcp: string, fid: string, cls: string, inputs: object }
   stats: {
     auditsRun: 0,
     topScore: 0
   },
   trophies: {
     "speed-demon": { name: "Speed Demon", desc: "Achieve LCP under 1.5 seconds.", unlocked: false, icon: "⚡" },
-    "clean-coder": { name: "Clean Coder", desc: "No blocking scripts and DOM under 1200 nodes.", unlocked: false, icon: "🧹" },
+    "clean-coder": { name: "Clean Coder", desc: "No more than 3 JS files and Page Size under 1.5 MB.", unlocked: false, icon: "🧹" },
     "perfect-100": { name: "Lighthouse Master", desc: "Achieve a perfect 100 overall score.", unlocked: false, icon: "👑" },
     "max-optimizer": { name: "Optimization Veteran", desc: "Toggle all 6 sandbox optimizations simultaneously.", unlocked: false, icon: "🛠️" }
   },
@@ -133,23 +133,23 @@ function syncUIElements() {
   }
   
   // Range sliders
-  document.getElementById("input-js-size").value = STATE.inputs.jsSize;
-  document.getElementById("input-images").value = STATE.inputs.images;
-  document.getElementById("input-requests").value = STATE.inputs.requests;
-  document.getElementById("input-dom-nodes").value = STATE.inputs.domNodes;
-  document.getElementById("input-rtt").value = STATE.inputs.rtt;
-  document.getElementById("input-blocking-scripts").value = STATE.inputs.blockingScripts;
+  document.getElementById("input-load-time").value = STATE.inputs.loadTime;
+  document.getElementById("input-page-size").value = STATE.inputs.pageSize;
+  document.getElementById("input-image-count").value = STATE.inputs.imageCount;
+  document.getElementById("input-image-size").value = STATE.inputs.imageSize;
+  document.getElementById("input-css-count").value = STATE.inputs.cssCount;
+  document.getElementById("input-js-count").value = STATE.inputs.jsCount;
   
   document.getElementById("toggle-critical-css").checked = STATE.inputs.criticalCss;
   document.getElementById("toggle-http3").checked = STATE.inputs.http3;
   
   // Update slider labels
-  updateSliderLabel("js-size", STATE.inputs.jsSize);
-  updateSliderLabel("images", STATE.inputs.images);
-  updateSliderLabel("requests", STATE.inputs.requests);
-  updateSliderLabel("dom-nodes", STATE.inputs.domNodes);
-  updateSliderLabel("rtt", STATE.inputs.rtt);
-  updateSliderLabel("blocking-scripts", STATE.inputs.blockingScripts);
+  updateSliderLabel("load-time", STATE.inputs.loadTime);
+  updateSliderLabel("page-size", STATE.inputs.pageSize);
+  updateSliderLabel("image-count", STATE.inputs.imageCount);
+  updateSliderLabel("image-size", STATE.inputs.imageSize);
+  updateSliderLabel("css-count", STATE.inputs.cssCount);
+  updateSliderLabel("js-count", STATE.inputs.jsCount);
   
   // Sandbox switches
   document.getElementById("opt-minify-js").checked = STATE.sandbox.minifyJs;
@@ -174,37 +174,39 @@ function updateSliderLabel(id, val) {
 
 // --- FORM CONTROLS BINDING ---
 function initFormControls() {
-  const sliders = ["js-size", "images", "requests", "dom-nodes", "rtt", "blocking-scripts"];
+  const sliders = ["load-time", "page-size", "image-count", "image-size", "css-count", "js-count"];
   
   sliders.forEach(id => {
     const input = document.getElementById(`input-${id}`);
     input.addEventListener("input", (e) => {
-      const val = parseInt(e.target.value);
+      const val = parseFloat(e.target.value);
       updateSliderLabel(id, val);
       
-      // Update inputs state
       const mapKey = {
-        "js-size": "jsSize",
-        "images": "images",
-        "requests": "requests",
-        "dom-nodes": "domNodes",
-        "rtt": "rtt",
-        "blocking-scripts": "blockingScripts"
+        "load-time": "loadTime",
+        "page-size": "pageSize",
+        "image-count": "imageCount",
+        "image-size": "imageSize",
+        "css-count": "cssCount",
+        "js-count": "jsCount"
       }[id];
       
       STATE.inputs[mapKey] = val;
       saveState();
+      recalculatePerformance(false); // Instantly update dashboard stats
     });
   });
   
   document.getElementById("toggle-critical-css").addEventListener("change", (e) => {
     STATE.inputs.criticalCss = e.target.checked;
     saveState();
+    recalculatePerformance(false);
   });
   
   document.getElementById("toggle-http3").addEventListener("change", (e) => {
     STATE.inputs.http3 = e.target.checked;
     saveState();
+    recalculatePerformance(false);
   });
   
   // Bind Sandbox toggles to instantly update dial
@@ -270,6 +272,7 @@ function initActionBindings() {
   
   document.getElementById("run-diagnostics-btn").addEventListener("click", handleRunDiagnostics);
   document.getElementById("export-report-btn").addEventListener("click", downloadReportText);
+  document.getElementById("export-json-btn").addEventListener("click", exportReportJson);
 }
 
 // --- DETERMINISTIC HASH CODE FOR WEBSITE ANALYSIS ---
@@ -284,13 +287,13 @@ function evaluateUrlPerformanceMetrics(urlString) {
   
   // Custom static targets for popular sites
   if (hostname.includes("google.com")) {
-    return { jsSize: 220, images: 4, requests: 12, domNodes: 600, rtt: 15, blockingScripts: 0, criticalCss: true, http3: true };
+    return { loadTime: 0.8, pageSize: 0.6, imageCount: 3, imageSize: 180, cssCount: 1, jsCount: 4, criticalCss: true, http3: true };
   }
   if (hostname.includes("github.com")) {
-    return { jsSize: 620, images: 8, requests: 28, domNodes: 1200, rtt: 65, blockingScripts: 1, criticalCss: true, http3: true };
+    return { loadTime: 2.1, pageSize: 2.8, imageCount: 12, imageSize: 650, cssCount: 3, jsCount: 8, criticalCss: true, http3: true };
   }
   if (hostname.includes("slow-legacy-site.org")) {
-    return { jsSize: 2400, images: 35, requests: 120, domNodes: 4200, rtt: 320, blockingScripts: 9, criticalCss: false, http3: false };
+    return { loadTime: 9.8, pageSize: 12.4, imageCount: 48, imageSize: 4200, cssCount: 8, jsCount: 18, criticalCss: false, http3: false };
   }
   
   // Hashing algorithm to make it deterministic but randomized
@@ -300,24 +303,24 @@ function evaluateUrlPerformanceMetrics(urlString) {
   }
   hash = Math.abs(hash);
   
-  const jsSize = (hash % 2000) + 150; // 150KB to 2150KB
-  const images = (hash % 35) + 2;      // 2 to 37 images
-  const requests = (hash % 80) + 10;   // 10 to 90 requests
-  const domNodes = ((hash % 40) * 100) + 400; // 400 to 4400 nodes
-  const rtt = (hash % 280) + 20;       // 20ms to 300ms
-  const blockingScripts = hash % 8;    // 0 to 7 blocking scripts
+  const loadTime = parseFloat(((hash % 100) / 10 + 0.5).toFixed(1)); // 0.5s to 10.5s
+  const pageSize = parseFloat(((hash % 120) / 10 + 0.2).toFixed(1)); // 0.2MB to 12.2MB
+  const imageCount = (hash % 60) + 2; // 2 to 62 images
+  const imageSize = (hash % 3500) + 100; // 100KB to 3600KB
+  const cssCount = (hash % 10) + 1; // 1 to 10 stylesheets
+  const jsCount = (hash % 15) + 2; // 2 to 17 scripts
   
   // Secure protocols checks
   const isHttps = urlString.startsWith("https://") || hash % 3 !== 0;
   const criticalCss = hash % 4 === 0;
   
   return {
-    jsSize,
-    images,
-    requests,
-    domNodes,
-    rtt,
-    blockingScripts,
+    loadTime,
+    pageSize,
+    imageCount,
+    imageSize,
+    cssCount,
+    jsCount,
     criticalCss,
     http3: isHttps
   };
@@ -411,12 +414,12 @@ async function handleRunDiagnostics() {
 // --- PERFORMANCE MATH ENGINE ---
 function recalculatePerformance(saveToHistory = false) {
   // 1. Gather Inputs
-  const jsSize = STATE.inputs.jsSize;
-  const images = STATE.inputs.images;
-  const requests = STATE.inputs.requests;
-  const domNodes = STATE.inputs.domNodes;
-  const rtt = STATE.inputs.rtt;
-  const blockingScripts = STATE.inputs.blockingScripts;
+  const loadTime = STATE.inputs.loadTime;
+  const pageSize = STATE.inputs.pageSize;
+  const imageCount = STATE.inputs.imageCount;
+  const imageSize = STATE.inputs.imageSize;
+  const cssCount = STATE.inputs.cssCount;
+  const jsCount = STATE.inputs.jsCount;
   
   const isCriticalCss = STATE.inputs.criticalCss;
   const isHttp3 = STATE.inputs.http3;
@@ -431,56 +434,30 @@ function recalculatePerformance(saveToHistory = false) {
   
   // --- CORE WEB VITALS MATH ESTIMATORS ---
   
-  // A. LCP (s): Base is 0.5s.
-  let lcp = 0.5;
+  // A. LCP (s): Base is loadTime.
+  let lcp = loadTime;
   
-  // JS influence
-  let jsContribution = jsSize / 250; // 1s per 250KB
-  if (optMinify) jsContribution *= 0.5; // minify reduces load size
-  if (optCompress) jsContribution *= 0.7; // gzip reduces transport weight
-  lcp += jsContribution;
+  // Optimize LCP based on sandbox selections
+  if (optMinify) lcp -= (jsCount * 0.04 + cssCount * 0.04);
+  if (optWebp) lcp -= (imageSize / 2000) * 0.3;
+  if (optLazy) lcp -= (imageCount * 0.03);
+  if (optCompress) lcp *= 0.85;
+  if (optHttp3) lcp *= 0.9;
+  if (isCriticalCss) lcp -= 0.3;
   
-  // Images influence
-  let imagesContribution = images * 0.15; // 0.15s per image
-  if (optWebp) imagesContribution *= 0.25; // 75% reduction
-  if (optLazy) imagesContribution *= 0.2; // 80% reduction (renders only first viewport)
-  lcp += imagesContribution;
-  
-  // HTML / DOM size
-  lcp += domNodes / 1500 * 0.1; // 0.1s per 1500 nodes
-  
-  // Requests/HTTP contribution
-  let requestsContribution = requests * 0.04;
-  if (optHttp3) requestsContribution *= 0.6; // multiplexed network reduces delay queue
-  lcp += requestsContribution;
-  
-  // Latency RTT
-  let rttContribution = (rtt * 2.5) / 1000;
-  if (optHttp3) rttContribution *= 0.7; // QUIC connection protocols
-  lcp += rttContribution;
-  
-  // Inlined Critical CSS reductions
-  if (isCriticalCss) {
-    lcp -= 0.4; // paint begins 400ms faster
-  }
-  
-  lcp = Math.max(0.4, parseFloat(lcp.toFixed(2))); // minimum baseline LCP
+  lcp = Math.max(0.3, parseFloat(lcp.toFixed(2))); // minimum baseline LCP
   
   // B. FID / INP (ms): Base is 5ms
   let fid = 5;
   
-  // JS parsing delay
-  let jsFidContribution = (jsSize / 200) * 15;
+  // JS files count adds to processing latency
+  let jsFidContribution = jsCount * 12;
   if (optMinify) jsFidContribution *= 0.5;
+  if (optDefer) jsFidContribution *= 0.2;
   fid += jsFidContribution;
   
-  // Blocking scripts
-  let blockingFidContribution = blockingScripts * 40;
-  if (optDefer) blockingFidContribution *= 0.15; // async/defer removes render block
-  fid += blockingFidContribution;
-  
-  // Latency
-  fid += rtt / 8;
+  // Page size adds parsing time
+  fid += pageSize * 10;
   
   fid = Math.max(1, Math.round(fid));
   
@@ -488,12 +465,12 @@ function recalculatePerformance(saveToHistory = false) {
   let cls = 0.0;
   
   // Unoptimized images missing dimensions trigger CLS shifts
-  let imagesCls = images * 0.025;
-  if (optLazy) imagesCls *= 0.1; // Sizing included in modern practices
+  let imagesCls = imageCount * 0.012;
+  if (optLazy) imagesCls *= 0.15; // Sizing and offset adjustments
   cls += imagesCls;
   
-  // HTML layout shifts
-  cls += (domNodes / 2000) * 0.01;
+  // CSS layout styles
+  cls += (cssCount * 0.005);
   cls = Math.max(0, parseFloat(cls.toFixed(2)));
   
   // --- SCORING ENGINE (Lighthouse Weights) ---
@@ -548,7 +525,8 @@ function recalculatePerformance(saveToHistory = false) {
       score: finalScore,
       lcp: `${lcp}s`,
       fid: `${fid}ms`,
-      cls: cls.toFixed(2)
+      cls: cls.toFixed(2),
+      inputs: JSON.parse(JSON.stringify(STATE.inputs))
     });
     
     // Limits history logs
@@ -557,7 +535,7 @@ function recalculatePerformance(saveToHistory = false) {
     // Top score check
     STATE.stats.topScore = Math.max(STATE.stats.topScore, finalScore);
     
-    checkAchievements(finalScore, lcp, domNodes, blockingScripts);
+    checkAchievements(finalScore, lcp, jsCount, pageSize);
     saveState();
     syncUIElements();
   }
@@ -630,6 +608,7 @@ function renderAuditsList(optMinify, optWebp, optLazy, isCriticalCss, optDefer, 
   
   // Enable report downloader if evaluations have run
   document.getElementById("export-report-btn").disabled = false;
+  document.getElementById("export-json-btn").disabled = false;
 }
 
 window.toggleAuditExpander = function(button) {
@@ -650,9 +629,10 @@ function syncHistoryUI() {
     return;
   }
   
-  STATE.history.forEach((log) => {
+  STATE.history.forEach((log, index) => {
     const item = document.createElement("div");
     item.className = "history-item";
+    item.addEventListener("click", () => restoreHistoryReport(index));
     
     let badgeClass = "score-badge-low";
     if (log.score >= 90) badgeClass = "score-badge-high";
@@ -662,12 +642,22 @@ function syncHistoryUI() {
       <div class="history-score-badge ${badgeClass}">${log.score}</div>
       <div class="history-item-details">
         <span style="font-weight: 700;">LCP: ${log.lcp} | FID: ${log.fid}</span>
-        <span class="history-date">Scan run: ${log.date}</span>
+        <span class="history-date">Scan run: ${log.date} (Click to Load)</span>
       </div>
     `;
     
     container.appendChild(item);
   });
+}
+
+function restoreHistoryReport(index) {
+  const log = STATE.history[index];
+  if (log && log.inputs) {
+    STATE.inputs = JSON.parse(JSON.stringify(log.inputs));
+    saveState();
+    syncUIElements();
+    recalculatePerformance(false);
+  }
 }
 
 function syncTrophiesUI() {
@@ -685,7 +675,7 @@ function syncTrophiesUI() {
 }
 
 // --- ACHIEVEMENTS CHECKER ---
-function checkAchievements(score, lcp, dom, scripts) {
+function checkAchievements(score, lcp, jsCount, pageSize) {
   let changed = false;
   
   // Speed Demon (LCP < 1.5s)
@@ -694,8 +684,8 @@ function checkAchievements(score, lcp, dom, scripts) {
     changed = true;
   }
   
-  // Clean Coder (Scripts = 0, DOM < 1200)
-  if (scripts === 0 && dom < 1200 && !STATE.trophies["clean-coder"].unlocked) {
+  // Clean Coder (JS count <= 3, page size < 1.5MB)
+  if (jsCount <= 3 && pageSize < 1.5 && !STATE.trophies["clean-coder"].unlocked) {
     STATE.trophies["clean-coder"].unlocked = true;
     changed = true;
   }
@@ -721,12 +711,17 @@ function checkAchievements(score, lcp, dom, scripts) {
 }
 
 // --- DOWNLOAD EXPORTER LOGS ---
+function exportReportJson() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(STATE, null, 2));
+  const link = document.createElement("a");
+  link.setAttribute("href", dataStr);
+  link.setAttribute("download", `frontend_performance_report_${STATE.history[0]?.score || 0}.json`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
 function downloadReportText() {
-  const jsSize = STATE.inputs.jsSize;
-  const images = STATE.inputs.images;
-  const requests = STATE.inputs.requests;
-  const rtt = STATE.inputs.rtt;
-  
   // Read current visual labels
   const score = document.getElementById("dial-score-val").textContent;
   const lcp = document.getElementById("badge-lcp").textContent;
@@ -747,10 +742,12 @@ Cumulative Layout Shift (CLS): ${cls}
 
 Baseline Metrics Evaluated:
 ---------------------------
-- Total JavaScript size: ${jsSize} KB
-- Unoptimized images count: ${images}
-- Network Requests: ${requests}
-- Server Round-trip delay: ${rtt} ms
+- Page Load Time: ${STATE.inputs.loadTime} s
+- Total Page Size: ${STATE.inputs.pageSize} MB
+- Image Count: ${STATE.inputs.imageCount}
+- Total Image Size: ${STATE.inputs.imageSize} KB
+- CSS File Count: ${STATE.inputs.cssCount}
+- JavaScript File Count: ${STATE.inputs.jsCount}
 
 Best Practice Optimization Suggestions:
 - Ensure JS assets are minified and compressed.
