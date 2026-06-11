@@ -173,11 +173,12 @@
         
         <!-- Input fields depending on set/unset password status -->
         <div class="vault-input-group">
+          <input type="text" id="vault-username-input" placeholder="Username" class="text-input width-full text-center" style="margin-bottom: 10px;">
           <input type="password" id="vault-password-input" placeholder="Password" class="text-input width-full text-center">
           <div class="vault-confirm-group hidden" id="vault-confirm-row">
             <input type="password" id="vault-confirm-input" placeholder="Confirm Password" class="text-input width-full text-center margin-top-sm">
           </div>
-          <div class="error-msg hidden" id="vault-error-msg">Incorrect Password. Try again.</div>
+          <div class="error-msg hidden" id="vault-error-msg">Incorrect credentials. Try again.</div>
         </div>
 
         <div class="vault-modal-actions">

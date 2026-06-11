@@ -7,6 +7,7 @@ let STATE = {
   activeFilter: "all",
   searchQuery: "",
   theme: "dark",
+  vaultUsername: null,
   vaultPasswordHash: null,
   isUnlocked: false
 };
@@ -56,8 +57,10 @@ function loadTheme() {
 }
 
 function loadVaultConfig() {
+  const username = localStorage.getItem("notebook_vault_username");
   const pwdHash = localStorage.getItem("notebook_vault_hash");
-  if (pwdHash) {
+  if (username && pwdHash) {
+    STATE.vaultUsername = username;
     STATE.vaultPasswordHash = pwdHash;
     STATE.isUnlocked = false;
     showLockScreen(true, "unlock");
@@ -147,6 +150,9 @@ function initUI() {
   });
 
   // Key event listeners for Lock modal
+  document.getElementById("vault-username-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleVaultSubmit();
+  });
   document.getElementById("vault-password-input").addEventListener("keydown", (e) => {
     if (e.key === "Enter") handleVaultSubmit();
   });
@@ -176,9 +182,11 @@ function showLockScreen(show, mode = "unlock") {
   const errorMsg = document.getElementById("vault-error-msg");
   const skipBtn = document.getElementById("btn-vault-skip");
   const submitBtn = document.getElementById("btn-vault-submit");
+  const userInput = document.getElementById("vault-username-input");
   const pwdInput = document.getElementById("vault-password-input");
 
   errorMsg.classList.add("hidden");
+  userInput.value = "";
   pwdInput.value = "";
   document.getElementById("vault-confirm-input").value = "";
 
@@ -191,24 +199,33 @@ function showLockScreen(show, mode = "unlock") {
   
   if (mode === "setup") {
     title.textContent = "Secure Your Vault";
-    desc.textContent = "Create a custom master password to protect and encrypt your local notebook entries.";
+    desc.textContent = "Create a custom username and master password to protect and encrypt your local notebook entries.";
     confirmRow.classList.remove("hidden");
     skipBtn.classList.remove("hidden");
-    submitBtn.textContent = "Set Password";
+    submitBtn.textContent = "Set Credentials";
+    userInput.placeholder = "Create Username";
     pwdInput.placeholder = "Create Password";
   } else {
     title.textContent = "Vault Locked";
-    desc.textContent = "Enter your master password to decrypt and view your secure database.";
+    desc.textContent = "Enter your username and password to decrypt and view your secure database.";
     confirmRow.classList.add("hidden");
     skipBtn.classList.add("hidden");
     submitBtn.textContent = "Unlock Vault";
-    pwdInput.placeholder = "Enter Password";
+    userInput.placeholder = "Username";
+    pwdInput.placeholder = "Password";
   }
 }
 
 function handleVaultSubmit() {
+  const userInput = document.getElementById("vault-username-input").value.trim();
   const pwdInput = document.getElementById("vault-password-input").value;
   const errorMsg = document.getElementById("vault-error-msg");
+
+  if (!userInput) {
+    errorMsg.textContent = "Username cannot be empty.";
+    errorMsg.classList.remove("hidden");
+    return;
+  }
 
   if (!pwdInput) {
     errorMsg.textContent = "Password cannot be empty.";
@@ -225,9 +242,11 @@ function handleVaultSubmit() {
       return;
     }
 
-    // Hash and store password
+    // Hash and store credentials
     const hash = simpleHash(pwdInput);
+    STATE.vaultUsername = userInput;
     STATE.vaultPasswordHash = hash;
+    localStorage.setItem("notebook_vault_username", userInput);
     localStorage.setItem("notebook_vault_hash", hash);
     STATE.isUnlocked = true;
     showLockScreen(false);
@@ -238,14 +257,14 @@ function handleVaultSubmit() {
   // Unlock mode
   else {
     const inputHash = simpleHash(pwdInput);
-    if (inputHash === STATE.vaultPasswordHash) {
+    if (userInput.toLowerCase() === STATE.vaultUsername.toLowerCase() && inputHash === STATE.vaultPasswordHash) {
       STATE.isUnlocked = true;
       showLockScreen(false);
       loadNotesFromStorage();
       renderNotesList();
       selectFirstNote();
     } else {
-      errorMsg.textContent = "Incorrect password. Try again.";
+      errorMsg.textContent = "Incorrect username or password. Try again.";
       errorMsg.classList.remove("hidden");
     }
   }
