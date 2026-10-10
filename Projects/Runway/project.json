@@ -1,0 +1,10 @@
+{
+  "title": "Runway",
+  "description": "An income and expense tracker for irregular earners that shows how many days of runway you have left.",
+  "author": {
+    "name": "John David",
+    "github": "johndavidagaba"
+  },
+  "tags": ["finance", "localstorage", "vanilla-js", "design-tokens"],
+  "entry": "index.html"
+}
